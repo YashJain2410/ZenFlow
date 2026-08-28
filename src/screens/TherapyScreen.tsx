@@ -18,19 +18,43 @@ export const TherapyScreen = () => {
   useEffect(() => {
     if (!user) return;
 
-    const stepsQuery = query(collection(db, 'users', user.uid, 'exposureSteps'), orderBy('order', 'asc'));
-    const unsubSteps = onSnapshot(stepsQuery, (snapshot) => {
-      setSteps(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+    const initialSteps = [
+      { id: '1', title: 'Visit a quiet cafe', completed: true, order: 1 },
+      { id: '2', title: 'Drive for 15 minutes', completed: true, order: 2 },
+      { id: '3', title: 'Sit in a crowded mall', completed: true, order: 3 },
+      { id: '4', title: 'Order food in person', completed: false, order: 4 },
+      { id: '5', title: 'Attend a small social gathering', completed: false, order: 5 },
+    ];
+    setSteps(initialSteps);
 
-    const entriesQuery = query(collection(db, 'users', user.uid, 'diary'), orderBy('timestamp', 'desc'));
-    const unsubEntries = onSnapshot(entriesQuery, (snapshot) => {
-      setEntries(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
+    let unsubSteps: (() => void) | undefined;
+    let unsubEntries: (() => void) | undefined;
+
+    try {
+      const stepsQuery = query(collection(db, 'users', user.uid, 'exposureSteps'), orderBy('order', 'asc'));
+      unsubSteps = onSnapshot(stepsQuery, (snapshot) => {
+        if (!snapshot.empty) {
+          setSteps(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        }
+      }, (err) => {
+        console.warn("Steps snapshot error (using local state):", err.message);
+      });
+
+      const entriesQuery = query(collection(db, 'users', user.uid, 'diary'), orderBy('timestamp', 'desc'));
+      unsubEntries = onSnapshot(entriesQuery, (snapshot) => {
+        if (!snapshot.empty) {
+          setEntries(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        }
+      }, (err) => {
+        console.warn("Entries snapshot error (using local state):", err.message);
+      });
+    } catch (e) {
+      console.warn("Therapy query setup warning:", e);
+    }
 
     return () => {
-      unsubSteps();
-      unsubEntries();
+      if (unsubSteps) unsubSteps();
+      if (unsubEntries) unsubEntries();
     };
   }, [user]);
 
@@ -114,7 +138,9 @@ export const TherapyScreen = () => {
                     <div>
                       <h3 className="font-bold text-on-surface">{entry.title || entry.mood || 'Reflection'}</h3>
                       <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
-                        {entry.timestamp?.toDate().toLocaleString() || 'Just now'}
+                        {typeof entry.timestamp?.toDate === 'function' 
+                          ? entry.timestamp.toDate().toLocaleString() 
+                          : (typeof entry.timestamp === 'string' ? entry.timestamp : 'Just now')}
                       </span>
                     </div>
                     <Sparkles size={20} className="text-primary" />

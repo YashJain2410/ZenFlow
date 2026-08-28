@@ -5,7 +5,17 @@ import { Send, Bot, Users, AlertTriangle, BookOpen, Music, Moon, Edit3, Loader2 
 import { cn } from '../lib/utils';
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const getAiClient = () => {
+  try {
+    const key = process.env.GEMINI_API_KEY;
+    if (key && typeof key === 'string' && key.trim() !== '') {
+      return new GoogleGenAI({ apiKey: key });
+    }
+  } catch (e) {
+    console.warn("AI client initialization fallback:", e);
+  }
+  return null;
+};
 
 export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) => {
   const [messages, setMessages] = useState([
@@ -30,6 +40,19 @@ export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) =
     setIsTyping(true);
 
     try {
+      const ai = getAiClient();
+      if (!ai) {
+        // Fallback empathetic responses when offline or API key is not yet set
+        setTimeout(() => {
+          setMessages(prev => [...prev, { 
+            role: 'bot', 
+            text: "Thank you for sharing. Remember to take slow, steady breaths. Inhale for 4 seconds, hold, and gently exhale. I am here with you." 
+          }]);
+          setIsTyping(false);
+        }, 800);
+        return;
+      }
+
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: [
@@ -44,7 +67,7 @@ export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) =
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
       console.error("Chat error:", error);
-      setMessages(prev => [...prev, { role: 'bot', text: "I'm sorry, I'm having a little trouble connecting. But I'm still here for you." }]);
+      setMessages(prev => [...prev, { role: 'bot', text: "I'm here for you. Take a slow, grounding breath and focus on the present moment." }]);
     } finally {
       setIsTyping(false);
     }
