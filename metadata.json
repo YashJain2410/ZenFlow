@@ -1,0 +1,6 @@
+{
+  "name": "ZenFlow",
+  "description": "A 360° Panic Support System and mental wellness companion providing immediate relief, prediction, and recovery tools.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": []
+}

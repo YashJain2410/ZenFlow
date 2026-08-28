@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user-specific settings and progress",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "stressLevel": { "type": "string", "enum": ["low", "normal", "high", "crisis"] },
+        "calmScore": { "type": "number" },
+        "streak": { "type": "number" },
+        "mood": { "type": "string" },
+        "lastEntry": { "type": "string" },
+        "emergencyContacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "phone": { "type": "string" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "DiaryEntry": {
+      "title": "Diary Entry",
+      "description": "A user's panic diary entry",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "mood": { "type": "string" }
+      },
+      "required": ["uid", "content", "timestamp"]
+    },
+    "ExposureStep": {
+      "title": "Exposure Step",
+      "description": "A step in the user's exposure therapy",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "order": { "type": "number" }
+      },
+      "required": ["uid", "title", "completed"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document"
+    },
+    "/users/{userId}/diary/{entryId}": {
+      "schema": "DiaryEntry",
+      "description": "User's panic diary entries"
+    },
+    "/users/{userId}/exposureSteps/{stepId}": {
+      "schema": "ExposureStep",
+      "description": "User's exposure therapy steps"
+    }
+  }
+}

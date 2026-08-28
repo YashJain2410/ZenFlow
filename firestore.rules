@@ -1,0 +1,96 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId} (matches auth.uid)
+    // Fields:
+    //   - uid: string (required)
+    //   - displayName: string (optional)
+    //   - email: string (required)
+    //   - stressLevel: string (enum: low, normal, high, crisis)
+    //   - calmScore: number
+    //   - streak: number
+    //   - mood: string
+    //   - lastEntry: string
+    //   - createdAt: timestamp
+    //
+    // Collection: users/{userId}/diary
+    // Document ID: {entryId}
+    // Fields:
+    //   - uid: string (required)
+    //   - content: string (required, max 5000 chars)
+    //   - timestamp: timestamp (required)
+    //   - mood: string (optional)
+    //
+    // Collection: users/{userId}/exposureSteps
+    // Document ID: {stepId}
+    // Fields:
+    //   - uid: string (required)
+    //   - title: string (required, max 200 chars)
+    //   - completed: bool (required)
+    //   - order: number
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidUser(data) {
+      return data.uid == request.auth.uid &&
+             data.email is string &&
+             (data.stressLevel in ['low', 'normal', 'high', 'crisis']) &&
+             (data.calmScore is number) &&
+             (data.streak is number);
+    }
+
+    function isValidDiaryEntry(data) {
+      return data.uid == request.auth.uid &&
+             (data.title is string && data.title.size() <= 200) &&
+             data.content is string && data.content.size() <= 5000 &&
+             data.timestamp is timestamp;
+    }
+
+    function isValidExposureStep(data) {
+      return data.uid == request.auth.uid &&
+             data.title is string && data.title.size() <= 200 &&
+             data.completed is bool;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidUser(request.resource.data);
+      
+      match /diary/{entryId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidDiaryEntry(request.resource.data);
+        allow update: if isOwner(userId) && isValidDiaryEntry(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+
+      match /exposureSteps/{stepId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidExposureStep(request.resource.data);
+        allow update: if isOwner(userId) && isValidExposureStep(request.resource.data);
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}
