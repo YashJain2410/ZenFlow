@@ -1,8 +1,125 @@
-node_modules/
-build/
-dist/
-coverage/
-.DS_Store
-*.log
-.env*
+# ==============================================================================
+# Security & Environment Variables
+# ==============================================================================
+# Ignore all local environment and secret files
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Explicitly allow safe example / template configuration files
 !.env.example
+!.env.template
+!.env.sample
+
+# Private keys, certificates, secrets, and auth credentials
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*.pkcs12
+*.asc
+*.pub
+*secret*
+*credential*
+*token*
+*.id_rsa
+*.id_ed25519
+service-account*.json
+firebase-adminsdk*.json
+google-services.json
+GoogleService-Info.plist
+
+# ==============================================================================
+# Dependencies
+# ==============================================================================
+node_modules/
+jspm_packages/
+web_modules/
+.pnp
+.pnp.js
+
+# ==============================================================================
+# Build & Distribution Outputs
+# ==============================================================================
+dist/
+dist-ssr/
+build/
+out/
+.next/
+.nuxt/
+.output/
+.parcel-cache/
+.turbo/
+*.tsbuildinfo
+.rollup.cache/
+
+# ==============================================================================
+# Logs & Debug Artifacts
+# ==============================================================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+vite.log
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+
+# ==============================================================================
+# Testing & Code Coverage
+# ==============================================================================
+coverage/
+.nyc_output/
+*.lcov
+.clinic/
+
+# ==============================================================================
+# Cache & Temporary Files
+# ==============================================================================
+.cache/
+.eslintcache
+.stylelintcache
+.prettiercache
+tmp/
+temp/
+*.tmp
+*.temp
+
+# ==============================================================================
+# Operating System & Filesystem
+# ==============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==============================================================================
+# IDEs, Editors & Workspaces
+# ==============================================================================
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*~
+.project
+.classpath
+.settings/
+
