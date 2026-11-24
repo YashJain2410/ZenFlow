@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-headline: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-variant: var(--surface-variant);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-error: var(--error);
+  --color-success: var(--success);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-border: var(--border);
+}
+
+:root {
+  --primary: #8DA891;
+  --secondary: #A9B388;
+  --tertiary: #E5989B;
+  --background: #F8F9F5;
+  --surface: #FFFFFF;
+  --surface-variant: #E8EDE7;
+  --on-surface: #3A4D39;
+  --on-surface-variant: #7A8D79;
+  --error: #E5989B;
+  --success: #8DA891;
+  --accent: #E5989B;
+  --card: #FFFFFF;
+  --border: #E8EDE7;
+}
+
+.dark {
+  --primary: #A9B388;
+  --secondary: #8DA891;
+  --tertiary: #E5989B;
+  --background: #1A1F1A;
+  --surface: #252C25;
+  --surface-variant: #3A4D39;
+  --on-surface: #F8F9F5;
+  --on-surface-variant: #A9B388;
+  --error: #E5989B;
+  --success: #8DA891;
+  --accent: #E5989B;
+  --card: #252C25;
+  --border: #3A4D39;
+}
+
+body {
+  @apply bg-background text-on-surface font-sans transition-colors duration-300;
+}
+
+.glass-card {
+  @apply bg-card/70 backdrop-blur-xl border border-border/50;
+}
+
+.soft-shadow {
+  box-shadow: 0 10px 40px rgba(58, 77, 57, 0.06);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
