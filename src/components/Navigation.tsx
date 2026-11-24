@@ -3,11 +3,7 @@ import { Home, Wind, BarChart2, BookOpen, MessageCircle, Settings } from 'lucide
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
 
-<<<<<<< HEAD
-export type Tab = 'home' | 'relief' | 'insights' | 'library' | 'chat';
-=======
 export type Tab = 'home' | 'relief' | 'insights' | 'library' | 'chat' | 'mantra';
->>>>>>> upstream/main
 
 interface BottomNavProps {
   activeTab: Tab;

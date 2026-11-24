@@ -5,8 +5,6 @@ import { doc, onSnapshot, setDoc, getDoc, serverTimestamp, deleteDoc } from 'fir
 
 export type StressLevel = 'low' | 'normal' | 'high' | 'crisis';
 
-<<<<<<< HEAD
-=======
 export interface MantraSessionRecord {
   id: string;
   mantraId: string;
@@ -21,7 +19,6 @@ export interface MantraSessionRecord {
   completedAt: string;
 }
 
->>>>>>> upstream/main
 interface AppContextType {
   user: User | any | null;
   loading: boolean;
@@ -32,11 +29,8 @@ interface AppContextType {
   streak: number;
   mood: string;
   lastEntry: string;
-<<<<<<< HEAD
-=======
   lastMantraSession: MantraSessionRecord | null;
   logMantraSession: (session: Omit<MantraSessionRecord, 'id' | 'completedAt'>) => Promise<void>;
->>>>>>> upstream/main
   updateProfile: (data: any) => Promise<void>;
   addDiaryEntry: (title: string, content: string, mood?: string) => Promise<void>;
   deleteDiaryEntry: (entryId: string) => Promise<void>;
@@ -56,8 +50,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [streak, setStreak] = useState(0);
   const [mood, setMood] = useState('Neutral');
   const [lastEntry, setLastEntry] = useState('No entries yet');
-<<<<<<< HEAD
-=======
   const [lastMantraSession, setLastMantraSession] = useState<MantraSessionRecord | null>(() => {
     try {
       const saved = localStorage.getItem('zenflow_last_mantra_session');
@@ -66,7 +58,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       return null;
     }
   });
->>>>>>> upstream/main
 
   // Example users data
   const exampleUsers: Record<string, any> = {
@@ -369,8 +360,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-<<<<<<< HEAD
-=======
   const logMantraSession = async (session: Omit<MantraSessionRecord, 'id' | 'completedAt'>) => {
     const record: MantraSessionRecord = {
       ...session,
@@ -452,7 +441,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
->>>>>>> upstream/main
   const logoutUser = async () => {
     localStorage.removeItem('zenflow_demo_email');
     localStorage.removeItem('zenflow_demo_user');
@@ -465,8 +453,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-<<<<<<< HEAD
-=======
   // Offline sync effect
   useEffect(() => {
     if (!user) return;
@@ -525,7 +511,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener('online', handleOnline);
   }, [user]);
 
->>>>>>> upstream/main
   return (
     <AppContext.Provider value={{ 
       user, 
@@ -537,11 +522,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       streak, 
       mood, 
       lastEntry,
-<<<<<<< HEAD
-=======
       lastMantraSession,
       logMantraSession,
->>>>>>> upstream/main
       updateProfile,
       addDiaryEntry,
       deleteDiaryEntry,

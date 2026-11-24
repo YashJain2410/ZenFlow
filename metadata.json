@@ -1,11 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "ZenFlow",
-  "description": "A 360° Panic Support System and mental wellness companion providing immediate relief, prediction, and recovery tools.",
-  "requestFramePermissions": ["camera"],
-  "majorCapabilities": []
-}
-=======
   "name": "Remix ZenFlow",
   "description": "A 360° Panic Support System and mental wellness companion providing immediate relief, prediction, and recovery tools.",
   "requestFramePermissions": [
@@ -15,4 +8,3 @@
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
   ]
 }
->>>>>>> upstream/main

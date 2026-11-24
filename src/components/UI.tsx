@@ -26,11 +26,7 @@ export const Card = ({ children, className, onClick, ...props }: CardProps) => (
 );
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-<<<<<<< HEAD
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-=======
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'outline';
->>>>>>> upstream/main
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
   className?: string;
@@ -52,10 +48,7 @@ export const Button = ({
     secondary: "bg-secondary text-white shadow-lg shadow-secondary/20 hover:bg-secondary/90",
     danger: "bg-error text-white shadow-lg shadow-error/30 hover:bg-error/90",
     ghost: "bg-transparent text-on-surface hover:bg-surface-variant",
-<<<<<<< HEAD
-=======
     outline: "bg-transparent border border-border text-on-surface hover:bg-surface-variant",
->>>>>>> upstream/main
   };
 
   const sizes = {

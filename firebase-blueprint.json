@@ -51,8 +51,6 @@
         "order": { "type": "number" }
       },
       "required": ["uid", "title", "completed"]
-<<<<<<< HEAD
-=======
     },
     "MantraSession": {
       "title": "Mantra Session",
@@ -70,7 +68,6 @@
         "completedAt": { "type": "string" }
       },
       "required": ["uid", "mantraId", "durationSeconds"]
->>>>>>> upstream/main
     }
   },
   "firestore": {
@@ -85,13 +82,10 @@
     "/users/{userId}/exposureSteps/{stepId}": {
       "schema": "ExposureStep",
       "description": "User's exposure therapy steps"
-<<<<<<< HEAD
-=======
     },
     "/users/{userId}/mantraSessions/{sessionId}": {
       "schema": "MantraSession",
       "description": "User's completed mantra calming sessions"
->>>>>>> upstream/main
     }
   }
 }

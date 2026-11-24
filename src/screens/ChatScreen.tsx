@@ -3,22 +3,6 @@ import { motion } from 'motion/react';
 import { Card, Button } from '../components/UI';
 import { Send, Bot, Users, AlertTriangle, BookOpen, Music, Moon, Edit3, Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
-<<<<<<< HEAD
-import { GoogleGenAI } from "@google/genai";
-
-const getAiClient = () => {
-  try {
-    const key = process.env.GEMINI_API_KEY;
-    if (key && typeof key === 'string' && key.trim() !== '') {
-      return new GoogleGenAI({ apiKey: key });
-    }
-  } catch (e) {
-    console.warn("AI client initialization fallback:", e);
-  }
-  return null;
-};
-=======
->>>>>>> upstream/main
 
 export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) => {
   const [messages, setMessages] = useState([
@@ -43,33 +27,6 @@ export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) =
     setIsTyping(true);
 
     try {
-<<<<<<< HEAD
-      const ai = getAiClient();
-      if (!ai) {
-        // Fallback empathetic responses when offline or API key is not yet set
-        setTimeout(() => {
-          setMessages(prev => [...prev, { 
-            role: 'bot', 
-            text: "Thank you for sharing. Remember to take slow, steady breaths. Inhale for 4 seconds, hold, and gently exhale. I am here with you." 
-          }]);
-          setIsTyping(false);
-        }, 800);
-        return;
-      }
-
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: [
-          { role: 'user', parts: [{ text: `You are ZenBot, a compassionate mental wellness companion. Help the user with their concerns. User says: ${input}` }] }
-        ],
-        config: {
-          systemInstruction: "You are ZenBot, a calm, empathetic, and supportive AI companion for a mental wellness app called ZenFlow. Your goal is to provide immediate comfort, mindfulness tips, and a safe space for users. Keep responses concise, warm, and helpful. If a user is in crisis, gently suggest professional help or the SOS feature.",
-        }
-      });
-
-      const botMessage = { role: 'bot', text: response.text || "I'm here for you. Could you tell me more?" };
-      setMessages(prev => [...prev, botMessage]);
-=======
       const response = await fetch('/api/gemini/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -85,7 +42,6 @@ export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) =
 
       const data = await response.json();
       setMessages(prev => [...prev, { role: 'bot', text: data.text }]);
->>>>>>> upstream/main
     } catch (error) {
       console.error("Chat error:", error);
       setMessages(prev => [...prev, { role: 'bot', text: "I'm here for you. Take a slow, grounding breath and focus on the present moment." }]);

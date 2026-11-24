@@ -2,11 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Card, ProgressRing, Button } from '../components/UI';
 import { useAppContext } from '../context/AppContext';
-<<<<<<< HEAD
-import { Wind, Brain, Target, AlertCircle, Flame } from 'lucide-react';
-=======
 import { Wind, Brain, Target, AlertCircle, Flame, Sparkles, ChevronRight } from 'lucide-react';
->>>>>>> upstream/main
 import { cn } from '../lib/utils';
 
 export const HomeScreen = ({ onSOS, onNavigate }: { onSOS: () => void, onNavigate: (tab: any) => void }) => {
@@ -75,13 +71,6 @@ export const HomeScreen = ({ onSOS, onNavigate }: { onSOS: () => void, onNavigat
             </div>
 
             <section className="space-y-4">
-<<<<<<< HEAD
-              <h2 className="text-xl font-bold text-on-surface px-1">Quick Relief</h2>
-              <div className="grid grid-cols-3 gap-4">
-                {[
-                  { icon: Wind, label: 'Breathing', color: 'text-primary', bg: 'bg-primary/10', action: () => onNavigate('relief') },
-                  { icon: Brain, label: 'Grounding', color: 'text-tertiary', bg: 'bg-tertiary/10', action: () => onNavigate('relief') },
-=======
               <div className="flex justify-between items-center px-1">
                 <h2 className="text-xl font-bold text-on-surface">Quick Relief</h2>
                 <span className="text-xs text-primary font-bold">Fast Calming</span>
@@ -91,23 +80,10 @@ export const HomeScreen = ({ onSOS, onNavigate }: { onSOS: () => void, onNavigat
                   { icon: Wind, label: 'Breathing', color: 'text-primary', bg: 'bg-primary/10', action: () => onNavigate('relief') },
                   { icon: Brain, label: 'Grounding', color: 'text-tertiary', bg: 'bg-tertiary/10', action: () => onNavigate('relief') },
                   { icon: Sparkles, label: 'Mantra Calm', color: 'text-primary', bg: 'bg-primary/15', action: () => onNavigate('mantra') },
->>>>>>> upstream/main
                   { icon: Target, label: 'Focus', color: 'text-secondary', bg: 'bg-secondary/10', action: () => onNavigate('relief') },
                 ].map((item, i) => (
                   <Card 
                     key={i} 
-<<<<<<< HEAD
-                    className="p-5 flex flex-col items-center gap-3 text-center cursor-pointer hover:scale-105 transition-transform"
-                    onClick={item.action}
-                  >
-                    <div className={cn("w-12 h-12 rounded-full flex items-center justify-center", item.bg, item.color)}>
-                      <item.icon size={28} />
-                    </div>
-                    <span className="text-sm font-bold">{item.label}</span>
-                  </Card>
-                ))}
-              </div>
-=======
                     className="p-4 flex flex-col items-center gap-2.5 text-center cursor-pointer hover:scale-105 transition-transform"
                     onClick={item.action}
                   >
@@ -142,7 +118,6 @@ export const HomeScreen = ({ onSOS, onNavigate }: { onSOS: () => void, onNavigat
                   <ChevronRight size={18} />
                 </div>
               </div>
->>>>>>> upstream/main
             </section>
 
             <Card className="bg-gradient-to-br from-secondary/10 to-tertiary/10 border-none p-8 relative overflow-hidden">
