@@ -5,6 +5,23 @@ import { doc, onSnapshot, setDoc, getDoc, serverTimestamp, deleteDoc } from 'fir
 
 export type StressLevel = 'low' | 'normal' | 'high' | 'crisis';
 
+<<<<<<< HEAD
+=======
+export interface MantraSessionRecord {
+  id: string;
+  mantraId: string;
+  mantraTitle: string;
+  mantraText: string;
+  durationSeconds: number;
+  targetDurationSeconds?: number;
+  status?: 'completed' | 'interrupted' | 'abandoned';
+  repetitionCount: number;
+  feelingAfter?: string;
+  reflection?: string;
+  completedAt: string;
+}
+
+>>>>>>> upstream/main
 interface AppContextType {
   user: User | any | null;
   loading: boolean;
@@ -15,6 +32,11 @@ interface AppContextType {
   streak: number;
   mood: string;
   lastEntry: string;
+<<<<<<< HEAD
+=======
+  lastMantraSession: MantraSessionRecord | null;
+  logMantraSession: (session: Omit<MantraSessionRecord, 'id' | 'completedAt'>) => Promise<void>;
+>>>>>>> upstream/main
   updateProfile: (data: any) => Promise<void>;
   addDiaryEntry: (title: string, content: string, mood?: string) => Promise<void>;
   deleteDiaryEntry: (entryId: string) => Promise<void>;
@@ -34,6 +56,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [streak, setStreak] = useState(0);
   const [mood, setMood] = useState('Neutral');
   const [lastEntry, setLastEntry] = useState('No entries yet');
+<<<<<<< HEAD
+=======
+  const [lastMantraSession, setLastMantraSession] = useState<MantraSessionRecord | null>(() => {
+    try {
+      const saved = localStorage.getItem('zenflow_last_mantra_session');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+>>>>>>> upstream/main
 
   // Example users data
   const exampleUsers: Record<string, any> = {
@@ -336,6 +369,90 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const logMantraSession = async (session: Omit<MantraSessionRecord, 'id' | 'completedAt'>) => {
+    const record: MantraSessionRecord = {
+      ...session,
+      id: Date.now().toString(),
+      completedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' })
+    };
+    setLastMantraSession(record);
+    try {
+      localStorage.setItem('zenflow_last_mantra_session', JSON.stringify(record));
+    } catch (e) {
+      console.warn("Storage error:", e);
+    }
+
+    setCalmScore(prev => Math.min(100, (prev || 70) + 4));
+    setLastEntry(`Mantra Calm (${session.mantraTitle})`);
+    if (session.feelingAfter) {
+      if (session.feelingAfter.toLowerCase().includes('calm')) {
+        setMood('😇');
+      }
+    }
+
+    if (user) {
+      // API Payload mapping
+      const apiPayload = {
+        mantraId: session.mantraId,
+        customMantra: session.mantraTitle,
+        duration: session.targetDurationSeconds || session.durationSeconds,
+        actualDuration: session.durationSeconds,
+        status: session.status || 'completed',
+        moodAfter: session.feelingAfter,
+        reflection: session.reflection,
+        audioMode: 'silent'
+      };
+
+      try {
+        const token = await auth.currentUser?.getIdToken();
+        const res = await fetch('/api/mantra/sessions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify(apiPayload)
+        });
+        
+        if (!res.ok) {
+          if (res.status >= 400 && res.status < 500) {
+            console.error(`Client error ${res.status}, discarding session to prevent loop.`);
+            return; // Do not throw, so it doesn't get queued
+          }
+          throw new Error(`API returned ${res.status}`);
+        }
+      } catch (e) {
+        console.warn("Backend unavailable, queueing offline session:", e);
+        try {
+          const offlineQueue = JSON.parse(localStorage.getItem('zenflow_offline_mantras') || '[]');
+          offlineQueue.push(apiPayload);
+          localStorage.setItem('zenflow_offline_mantras', JSON.stringify(offlineQueue));
+        } catch (storageErr) {
+          console.error("Failed to queue offline session", storageErr);
+        }
+      }
+
+      // Legacy Firestore fallback (optimistic local state)
+      try {
+        const sessionRef = doc(db, 'users', user.uid, 'mantraSessions', record.id);
+        await setDoc(sessionRef, {
+          ...record,
+          timestamp: serverTimestamp()
+        });
+        await setDoc(doc(db, 'users', user.uid), {
+          calmScore: Math.min(100, (calmScore || 70) + 4),
+          lastEntry: `Mantra Calm (${session.mantraTitle})`,
+          lastMantraSession: record
+        }, { merge: true });
+      } catch (e) {
+        console.warn("logMantraSession firestore fallback:", e);
+      }
+    }
+  };
+
+>>>>>>> upstream/main
   const logoutUser = async () => {
     localStorage.removeItem('zenflow_demo_email');
     localStorage.removeItem('zenflow_demo_user');
@@ -348,6 +465,67 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+<<<<<<< HEAD
+=======
+  // Offline sync effect
+  useEffect(() => {
+    if (!user) return;
+    
+    const syncOfflineSessions = async () => {
+      try {
+        const offlineQueue = JSON.parse(localStorage.getItem('zenflow_offline_mantras') || '[]');
+        if (offlineQueue.length === 0) return;
+
+        const token = await auth.currentUser?.getIdToken();
+        if (!token) return;
+
+        console.log(`Attempting to sync ${offlineQueue.length} offline mantra sessions...`);
+        
+        const remainingQueue = [];
+        
+        for (const payload of offlineQueue) {
+          try {
+            const res = await fetch('/api/mantra/sessions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify(payload)
+            });
+            
+            if (!res.ok) {
+              if (res.status >= 400 && res.status < 500) {
+                 console.warn("Discarding invalid offline session:", res.status);
+              } else {
+                 remainingQueue.push(payload);
+              }
+            }
+          } catch (e) {
+            remainingQueue.push(payload);
+          }
+        }
+        
+        if (remainingQueue.length !== offlineQueue.length) {
+          localStorage.setItem('zenflow_offline_mantras', JSON.stringify(remainingQueue));
+        }
+        
+      } catch (err) {
+        console.error("Offline sync error", err);
+      }
+    };
+    
+    syncOfflineSessions();
+    
+    const handleOnline = () => {
+      syncOfflineSessions();
+    };
+    
+    window.addEventListener('online', handleOnline);
+    return () => window.removeEventListener('online', handleOnline);
+  }, [user]);
+
+>>>>>>> upstream/main
   return (
     <AppContext.Provider value={{ 
       user, 
@@ -359,6 +537,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       streak, 
       mood, 
       lastEntry,
+<<<<<<< HEAD
+=======
+      lastMantraSession,
+      logMantraSession,
+>>>>>>> upstream/main
       updateProfile,
       addDiaryEntry,
       deleteDiaryEntry,

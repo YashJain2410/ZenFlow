@@ -16,6 +16,10 @@ import { ChatScreen } from './screens/ChatScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { CrisisScreen } from './screens/CrisisScreen';
 import { TherapyScreen } from './screens/TherapyScreen';
+<<<<<<< HEAD
+=======
+import { MantraScreen } from './screens/MantraScreen';
+>>>>>>> upstream/main
 import { Wind } from 'lucide-react';
 import { cn } from './lib/utils';
 import { LoginScreen } from './screens/LoginScreen';
@@ -58,6 +62,10 @@ function AppContent() {
       );
       case 'library': return <LibraryScreen />;
       case 'chat': return <ChatScreen onNavigate={(tab) => setActiveTab(tab)} />;
+<<<<<<< HEAD
+=======
+      case 'mantra': return <MantraScreen onExit={() => setActiveTab('home')} />;
+>>>>>>> upstream/main
       default: return <HomeScreen onSOS={() => setStressLevel('crisis')} onNavigate={(tab) => setActiveTab(tab)} />;
     }
   };

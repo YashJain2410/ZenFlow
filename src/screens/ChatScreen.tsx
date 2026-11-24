@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Card, Button } from '../components/UI';
 import { Send, Bot, Users, AlertTriangle, BookOpen, Music, Moon, Edit3, Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
+<<<<<<< HEAD
 import { GoogleGenAI } from "@google/genai";
 
 const getAiClient = () => {
@@ -16,6 +17,8 @@ const getAiClient = () => {
   }
   return null;
 };
+=======
+>>>>>>> upstream/main
 
 export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) => {
   const [messages, setMessages] = useState([
@@ -40,6 +43,7 @@ export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) =
     setIsTyping(true);
 
     try {
+<<<<<<< HEAD
       const ai = getAiClient();
       if (!ai) {
         // Fallback empathetic responses when offline or API key is not yet set
@@ -65,6 +69,23 @@ export const ChatScreen = ({ onNavigate }: { onNavigate: (tab: any) => void }) =
 
       const botMessage = { role: 'bot', text: response.text || "I'm here for you. Could you tell me more?" };
       setMessages(prev => [...prev, botMessage]);
+=======
+      const response = await fetch('/api/gemini/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: userMessage.text })
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        setMessages(prev => [...prev, { role: 'bot', text: err.fallbackMessage || "I'm here for you. Take a slow, grounding breath and focus on the present moment." }]);
+        setIsTyping(false);
+        return;
+      }
+
+      const data = await response.json();
+      setMessages(prev => [...prev, { role: 'bot', text: data.text }]);
+>>>>>>> upstream/main
     } catch (error) {
       console.error("Chat error:", error);
       setMessages(prev => [...prev, { role: 'bot', text: "I'm here for you. Take a slow, grounding breath and focus on the present moment." }]);

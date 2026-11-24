@@ -5,10 +5,18 @@ import { X, Volume2, VolumeX, Play, Pause, RotateCcw, Flower, Grid, Brain, Spark
 import { cn } from '../lib/utils';
 
 import { SimulationScreen } from './SimulationScreen';
+<<<<<<< HEAD
 
 export const ReliefScreen = ({ onExit }: { onExit: () => void }) => {
   const [isActive, setIsActive] = useState(false);
   const [mode, setMode] = useState<'relax' | 'box' | 'simulation' | 'guided'>('relax');
+=======
+import { MantraScreen } from './MantraScreen';
+
+export const ReliefScreen = ({ onExit }: { onExit: () => void }) => {
+  const [isActive, setIsActive] = useState(false);
+  const [mode, setMode] = useState<'relax' | 'box' | 'simulation' | 'guided' | 'mantra'>('relax');
+>>>>>>> upstream/main
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [phase, setPhase] = useState<'Inhale' | 'Hold' | 'Exhale' | 'Rest'>('Inhale');
   const [isAudioOn, setIsAudioOn] = useState(true);
@@ -125,6 +133,13 @@ export const ReliefScreen = ({ onExit }: { onExit: () => void }) => {
     );
   }
 
+<<<<<<< HEAD
+=======
+  if (mode === 'mantra') {
+    return <MantraScreen onExit={() => setMode('relax')} />;
+  }
+
+>>>>>>> upstream/main
   return (
     <div className="flex flex-col items-center space-y-12 py-6 relative overflow-hidden">
       {/* Background Texture */}
@@ -195,6 +210,7 @@ export const ReliefScreen = ({ onExit }: { onExit: () => void }) => {
       </main>
 
       <div className="w-full space-y-6">
+<<<<<<< HEAD
         <div className="grid grid-cols-4 gap-2">
           <Card 
             onClick={() => { setMode('relax'); handleRestart(); }}
@@ -207,11 +223,26 @@ export const ReliefScreen = ({ onExit }: { onExit: () => void }) => {
             <div className="text-left">
               <p className="font-bold text-[11px]">Relax</p>
               <p className="text-[8px] text-on-surface-variant uppercase font-bold">4-4-4</p>
+=======
+        <div className="grid grid-cols-5 gap-1.5">
+          <Card 
+            onClick={() => { setMode('relax'); handleRestart(); }}
+            className={cn(
+              "p-2.5 flex flex-col items-start gap-1 cursor-pointer transition-all",
+              mode === 'relax' ? "border-primary ring-2 ring-primary/20" : "opacity-60"
+            )}
+          >
+            <Flower size={16} className="text-primary" />
+            <div className="text-left">
+              <p className="font-bold text-[10px]">Relax</p>
+              <p className="text-[7px] text-on-surface-variant uppercase font-bold">4-4-4</p>
+>>>>>>> upstream/main
             </div>
           </Card>
           <Card 
             onClick={() => { setMode('box'); handleRestart(); }}
             className={cn(
+<<<<<<< HEAD
               "p-3 flex flex-col items-start gap-1 cursor-pointer transition-all",
               mode === 'box' ? "border-primary ring-2 ring-primary/20" : "opacity-60"
             )}
@@ -220,11 +251,35 @@ export const ReliefScreen = ({ onExit }: { onExit: () => void }) => {
             <div className="text-left">
               <p className="font-bold text-[11px]">Box</p>
               <p className="text-[8px] text-on-surface-variant uppercase font-bold">Equal</p>
+=======
+              "p-2.5 flex flex-col items-start gap-1 cursor-pointer transition-all",
+              mode === 'box' ? "border-primary ring-2 ring-primary/20" : "opacity-60"
+            )}
+          >
+            <Grid size={16} className="text-secondary" />
+            <div className="text-left">
+              <p className="font-bold text-[10px]">Box</p>
+              <p className="text-[7px] text-on-surface-variant uppercase font-bold">Equal</p>
+            </div>
+          </Card>
+          <Card 
+            onClick={() => { setMode('mantra'); handleRestart(); }}
+            className={cn(
+              "p-2.5 flex flex-col items-start gap-1 cursor-pointer transition-all bg-primary/5",
+              mode === 'mantra' ? "border-primary ring-2 ring-primary/20 bg-primary/15" : "hover:border-primary/40"
+            )}
+          >
+            <span className="text-sm text-primary font-serif font-bold leading-none">ॐ</span>
+            <div className="text-left">
+              <p className="font-bold text-[10px] text-primary">Mantra</p>
+              <p className="text-[7px] text-on-surface-variant uppercase font-bold">Sacred</p>
+>>>>>>> upstream/main
             </div>
           </Card>
           <Card 
             onClick={() => { setMode('simulation'); handleRestart(); }}
             className={cn(
+<<<<<<< HEAD
               "p-3 flex flex-col items-start gap-1 cursor-pointer transition-all",
               mode === 'simulation' ? "border-primary ring-2 ring-primary/20" : "opacity-60"
             )}
@@ -233,11 +288,22 @@ export const ReliefScreen = ({ onExit }: { onExit: () => void }) => {
             <div className="text-left">
               <p className="font-bold text-[11px]">Twin</p>
               <p className="text-[8px] text-on-surface-variant uppercase font-bold">Train</p>
+=======
+              "p-2.5 flex flex-col items-start gap-1 cursor-pointer transition-all",
+              mode === 'simulation' ? "border-primary ring-2 ring-primary/20" : "opacity-60"
+            )}
+          >
+            <Brain size={16} className="text-tertiary" />
+            <div className="text-left">
+              <p className="font-bold text-[10px]">Twin</p>
+              <p className="text-[7px] text-on-surface-variant uppercase font-bold">Train</p>
+>>>>>>> upstream/main
             </div>
           </Card>
           <Card 
             onClick={() => { setMode('guided'); handleRestart(); }}
             className={cn(
+<<<<<<< HEAD
               "p-3 flex flex-col items-start gap-1 cursor-pointer transition-all",
               mode === 'guided' ? "border-primary ring-2 ring-primary/20" : "opacity-60"
             )}
@@ -246,6 +312,16 @@ export const ReliefScreen = ({ onExit }: { onExit: () => void }) => {
             <div className="text-left">
               <p className="font-bold text-[11px]">Guided</p>
               <p className="text-[8px] text-on-surface-variant uppercase font-bold">Voice</p>
+=======
+              "p-2.5 flex flex-col items-start gap-1 cursor-pointer transition-all",
+              mode === 'guided' ? "border-primary ring-2 ring-primary/20" : "opacity-60"
+            )}
+          >
+            <Sparkles size={16} className="text-accent" />
+            <div className="text-left">
+              <p className="font-bold text-[10px]">Guided</p>
+              <p className="text-[7px] text-on-surface-variant uppercase font-bold">Voice</p>
+>>>>>>> upstream/main
             </div>
           </Card>
         </div>

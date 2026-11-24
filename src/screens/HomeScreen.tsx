@@ -2,7 +2,11 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Card, ProgressRing, Button } from '../components/UI';
 import { useAppContext } from '../context/AppContext';
+<<<<<<< HEAD
 import { Wind, Brain, Target, AlertCircle, Flame } from 'lucide-react';
+=======
+import { Wind, Brain, Target, AlertCircle, Flame, Sparkles, ChevronRight } from 'lucide-react';
+>>>>>>> upstream/main
 import { cn } from '../lib/utils';
 
 export const HomeScreen = ({ onSOS, onNavigate }: { onSOS: () => void, onNavigate: (tab: any) => void }) => {
@@ -71,15 +75,28 @@ export const HomeScreen = ({ onSOS, onNavigate }: { onSOS: () => void, onNavigat
             </div>
 
             <section className="space-y-4">
+<<<<<<< HEAD
               <h2 className="text-xl font-bold text-on-surface px-1">Quick Relief</h2>
               <div className="grid grid-cols-3 gap-4">
                 {[
                   { icon: Wind, label: 'Breathing', color: 'text-primary', bg: 'bg-primary/10', action: () => onNavigate('relief') },
                   { icon: Brain, label: 'Grounding', color: 'text-tertiary', bg: 'bg-tertiary/10', action: () => onNavigate('relief') },
+=======
+              <div className="flex justify-between items-center px-1">
+                <h2 className="text-xl font-bold text-on-surface">Quick Relief</h2>
+                <span className="text-xs text-primary font-bold">Fast Calming</span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { icon: Wind, label: 'Breathing', color: 'text-primary', bg: 'bg-primary/10', action: () => onNavigate('relief') },
+                  { icon: Brain, label: 'Grounding', color: 'text-tertiary', bg: 'bg-tertiary/10', action: () => onNavigate('relief') },
+                  { icon: Sparkles, label: 'Mantra Calm', color: 'text-primary', bg: 'bg-primary/15', action: () => onNavigate('mantra') },
+>>>>>>> upstream/main
                   { icon: Target, label: 'Focus', color: 'text-secondary', bg: 'bg-secondary/10', action: () => onNavigate('relief') },
                 ].map((item, i) => (
                   <Card 
                     key={i} 
+<<<<<<< HEAD
                     className="p-5 flex flex-col items-center gap-3 text-center cursor-pointer hover:scale-105 transition-transform"
                     onClick={item.action}
                   >
@@ -90,6 +107,42 @@ export const HomeScreen = ({ onSOS, onNavigate }: { onSOS: () => void, onNavigat
                   </Card>
                 ))}
               </div>
+=======
+                    className="p-4 flex flex-col items-center gap-2.5 text-center cursor-pointer hover:scale-105 transition-transform"
+                    onClick={item.action}
+                  >
+                    <div className={cn("w-12 h-12 rounded-full flex items-center justify-center", item.bg, item.color)}>
+                      <item.icon size={26} />
+                    </div>
+                    <span className="text-xs font-bold truncate w-full">{item.label}</span>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Featured Spiritual Mantra Calm Banner */}
+              <div 
+                onClick={() => onNavigate('mantra')}
+                className="p-4.5 rounded-2xl bg-gradient-to-r from-primary/15 via-secondary/10 to-card border border-primary/20 hover:border-primary/50 cursor-pointer transition-all hover:scale-[1.01] flex items-center justify-between gap-3 shadow-sm"
+              >
+                <div className="flex items-center gap-3.5">
+                  <div className="w-12 h-12 rounded-2xl bg-card border border-primary/30 flex items-center justify-center text-primary font-serif text-2xl shadow-sm shrink-0">
+                    ॐ
+                  </div>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-primary">Spiritual Practice</span>
+                      <span className="w-1 h-1 rounded-full bg-primary" />
+                      <span className="text-[10px] text-on-surface-variant font-medium">Voluntary Wellness</span>
+                    </div>
+                    <h3 className="text-sm font-bold text-on-surface">Spiritual Mantra Calm</h3>
+                    <p className="text-xs text-on-surface-variant">Sacred chanting, singing bowls & emotional stillness</p>
+                  </div>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  <ChevronRight size={18} />
+                </div>
+              </div>
+>>>>>>> upstream/main
             </section>
 
             <Card className="bg-gradient-to-br from-secondary/10 to-tertiary/10 border-none p-8 relative overflow-hidden">

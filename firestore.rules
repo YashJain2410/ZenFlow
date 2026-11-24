@@ -91,6 +91,14 @@ service cloud.firestore {
         allow update: if isOwner(userId) && isValidExposureStep(request.resource.data);
         allow delete: if isOwner(userId);
       }
+<<<<<<< HEAD
+=======
+
+      match /mantraSessions/{sessionId} {
+        allow read, delete: if isOwner(userId);
+        allow create, update: if isOwner(userId);
+      }
+>>>>>>> upstream/main
     }
   }
 }
